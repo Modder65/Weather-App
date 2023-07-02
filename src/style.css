@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'robotolight';
+    src: url('./assets/fonts/roboto-light-webfont.woff2') format('woff2'),
+         url('./assets/fonts/roboto-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'robotolight_italic';
+    src: url('./assets/fonts/roboto-lightitalic-webfont.woff2') format('woff2'),
+         url('./assets/fonts/roboto-lightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'robotomedium';
+    src: url('./assets/fonts/roboto-medium-webfont.woff2') format('woff2'),
+         url('./assets/fonts/roboto-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'robotomedium_italic';
+    src: url('./assets/fonts/roboto-mediumitalic-webfont.woff2') format('woff2'),
+         url('./assets/fonts/roboto-mediumitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: 'robotolight', sans-serif;
+    font-weight: 800;
+}
+
+html, body {
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #F5F5F5;
+}
+
+header {
+    background-color: #D3D3D3;
+    padding: 15px;
+}
+
+#headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#headerLeft {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    gap: 100px;
+}
+
+#headerLeft img {
+    width: 65px;
+    height: auto;
+}
+
+#headerInput {
+    display: flex;
+    align-items: center;
+}
+
+#headerInput button {
+    background-color: #B0B0B0;
+    width: 75px;
+    height: 40px;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    color: #333;
+}
+
+input[type="search"] {
+    background-color: #F5F5F5;
+    border: none;
+    outline: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
+    flex: 1;
+    color: #333;
+    width: 450px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+input[type="search"]::placeholder {
+    color: #666;
+}
+
+#systemChanger {
+    background-color: #B0B0B0;
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #909090!important;
+    color: #FFF!important;
+}
+
+#contentContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 24px;
+}
+
+#contentContainer h2 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+#contentContainer h4 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+#contentContainer h1 {
+    margin: 0;
+    font-size: 3.5rem;
+}
+
+#contentContainer h5 {
+    margin: 0;
+}
+
+#currentWeatherContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+#forecastContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Use "auto" instead of "scroll" to show the scrollbar only when necessary */
+    gap: 50px;
+    width: 100%; /* Change the width to 100% to fit the available space */
+    max-width: 800px; /* Add a max-width to limit the container's size */
+    border: 3px solid #D3D3D3;
+    border-radius: 5px;
+    padding: 10px; 
+}
+
+#forecastContainer div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%; /* Adjust this value based on the number of elements you want to display in one row */
+    min-width: 100px; /* Add a min-width to ensure each element has a minimum width */
+    gap: 5px;
+}
+
+#forecastContainer div p {
+    margin: 0;
+}
+
