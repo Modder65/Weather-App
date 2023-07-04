@@ -184,3 +184,6 @@ button:hover {
     margin: 0;
 }
 
+.hidden {
+    display: none!important;
+}

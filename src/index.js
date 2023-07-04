@@ -28,6 +28,7 @@ gsap.from(".headerItem", { duration: 1, opacity: 0, delay: 1, stagger: .5 });
 
 
 
+
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     cityName = search.value.trim();
@@ -45,36 +46,53 @@ systemChanger.addEventListener("click", () => {
     convertTemperature();
 });
 
-
+//displays 3 day hourly forecast data for the specific chosen area in the correct timezone
 function createForecastItem(weatherData) {
-    for (let i = 0; i < weatherData.forecast.forecastday[0].hour.length; i++) {
-        const time = new Date(weatherData.forecast.forecastday[0].hour[i].time_epoch * 1000).getHours();
-        const condition = weatherData.forecast.forecastday[0].hour[i].chance_of_rain + "%";
-        const icon = weatherData.forecast.forecastday[0].hour[i].condition.icon;
-        const temperature = weatherData.forecast.forecastday[0].hour[i].temp_f;
-
-        let forecastItem = document.createElement("div");
-        let timeElement = document.createElement("p")
-        let conditionElement = document.createElement("p");
-        let iconElement = document.createElement("img");
-        let temperatureElement = document.createElement("p");
-
+    forecastContainer.classList.remove("hidden");
+    //clears the data from forecastContainer so it uses the data of the newly fetched weather data instead of only the data 
+    //from the first area that was fetched
+    forecastContainer.innerHTML = "";
+  
+    const targetTimeZone = weatherData.location.tz_id;
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+  
+    weatherData.forecast.forecastday.forEach((forecastDay) => {
+      forecastDay.hour.forEach((hourData) => {
+        const timeEpoch = hourData.time_epoch * 1000;
+        const date = new Date(timeEpoch);
+        const time = new Intl.DateTimeFormat(undefined, {
+          hour: "numeric",
+          minute: "numeric",
+          timeZone: targetTimeZone,
+        }).format(date);
+  
+        if (date.getDate() === currentDate.getDate() && date.getHours() < currentHour) {
+          return; // Skip past hours of the current day
+        }
+  
+        const condition = hourData.chance_of_rain + "%";
+        const icon = hourData.condition.icon;
+        const temperature = hourData.temp_f;
+  
+        const forecastItem = document.createElement("div");
+        forecastItem.innerHTML = `
+          <p>${time}</p>
+          <p style="color: blue;">${condition}</p>
+          <img src="${icon}" alt="Weather Icon">
+          <p class="forecastTemp" data-cel="${hourData.temp_c}${degreeSymbol}C" data-far="${temperature}${degreeSymbol}F">${temperature}${degreeSymbol}F</p>
+        `;
+  
         forecastContainer.appendChild(forecastItem);
-        forecastItem.appendChild(timeElement);
-        forecastItem.appendChild(conditionElement);
-        forecastItem.appendChild(iconElement);
-        forecastItem.appendChild(temperatureElement);
-
-        timeElement.textContent = `${time}:00`;
-        conditionElement.textContent = condition;
-        conditionElement.style.color = "blue";
-        iconElement.setAttribute("src", icon);
-        temperatureElement.classList.add("forecastTemp");
-        temperatureElement.textContent = `${temperature}${degreeSymbol}F`;
-    }
-}
+      });
+    });
+  
+    gsap.from(forecastContainer, { x: "100%", duration: 1.5, ease: "power2.out" });
+  }
+  
 
 function displayWeatherData(weatherData) {
+    gsap.from(currentWeatherContainer, { x: "-100%", duration: 1, ease: "power2.out"});
     currentWeatherContainer.querySelector("h2").textContent = weatherData.location.name;
     currentWeatherContainer.querySelector("h4").textContent = weatherData.current.condition.text;
     currentWeatherContainer.querySelector("h1").textContent = weatherData.current.temp_f + degreeSymbol + "F";
@@ -87,12 +105,6 @@ function displayWeatherData(weatherData) {
 
     currentWeatherContainer.querySelector("h5").setAttribute("data-cel", `Hi:${weatherData.forecast.forecastday[0].day.maxtemp_c}${degreeSymbol}C   Lo:${weatherData.forecast.forecastday[0].day.mintemp_c}${degreeSymbol}C`);
     currentWeatherContainer.querySelector("h5").setAttribute("data-far", `Hi:${weatherData.forecast.forecastday[0].day.maxtemp_f}${degreeSymbol}F   Lo:${weatherData.forecast.forecastday[0].day.mintemp_f}${degreeSymbol}F`);
-
-
-    document.querySelectorAll(".forecastTemp").forEach(temp => {
-        temp.setAttribute("data-cel", weatherData.forecast.forecastday[0].hour[0].temp_c + degreeSymbol + "C");
-        temp.setAttribute("data-far", weatherData.forecast.forecastday[0].hour[0].temp_f + degreeSymbol + "F");
-    });
 }
 
 function convertTemperature() {
