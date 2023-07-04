@@ -46,8 +46,11 @@ html, body {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background-color: #F5F5F5;
+    overflow: hidden;
 }
 
 header {
@@ -123,28 +126,37 @@ button:hover {
     color: #FFF!important;
 }
 
+main {
+    flex: 1;
+}
+
 #contentContainer {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     margin-top: 24px;
 }
 
-#contentContainer h2 {
+#weatherContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#weatherContainer h2 {
     margin: 0;
     font-size: 2.5rem;
 }
 
-#contentContainer h4 {
+#weatherContainer h4 {
     margin: 0;
     font-size: 2rem;
 }
 
-#contentContainer h1 {
+#weatherContainer h1 {
     margin: 0;
     font-size: 3.5rem;
 }
 
-#contentContainer h5 {
+#weatherContainer h5 {
     margin: 0;
 }
 
@@ -154,6 +166,11 @@ button:hover {
     justify-content: center;
     align-items: center;
     gap: 8px;
+    padding: 50px;
+    background-color: #D3D3D3;
+    border-top: 10px solid skyblue;
+    border-radius: 5px;
+
 }
 
 #forecastContainer {
@@ -182,6 +199,79 @@ button:hover {
 
 #forecastContainer div p {
     margin: 0;
+}
+
+#weatherDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 100px;
+    padding: 50px 15px 50px 15px;
+    background-color: #D3D3D3;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+}
+
+.row div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.row div p, .row div h5 {
+    margin: 0px;
+}
+
+.row div p:first-child {
+    color: #666;
+}
+
+.row div p:nth-child(2) {
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.row div h5 {
+    color: #333;
+    font-size: 1.4rem;
+}
+
+footer {
+    background-color: #D3D3D3;
+    padding: 20px;
+}
+
+#footerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+#footerContent p {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+#footerContent img {
+    width: 35px;
+    height: auto;
+}
+
+#footerContent img:hover {
+    opacity: 0.5;
 }
 
 .hidden {
