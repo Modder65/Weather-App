@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./bundle.js" defer></script>
+</head>
+<body>
+    <header>
+        <div id="headerContent">
+            <div id="headerLeft" class="headerItem">
+                <img src="" alt="">
+                <form id="headerInput">
+                    <input type="search" placeholder="Enter a (city, state) or zipcode" required oninvalid="this.setCustomValidity('Please Enter a City or Zip Code')" oninput="this.setCustomValidity('')">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <button id="systemChanger" class="headerItem">&deg;C / <b>&deg;F</b></button>
+        </div>
+    </header>
+<main>
+    <div id="contentContainer">
+        <div id="weatherContainer">
+            <div id="currentWeatherContainer" class="hidden">
+                <h2></h2>
+                <h4></h4>
+                <h1></h1>
+                <h5></h5>
+            </div>
+    
+            <div id="forecastContainer" class="hidden"></div>
+        </div>
+        <div id="weatherDetails" class="hidden">
+            <div class="row">
+                <div>
+                    <p>Sunrise</p>
+                    <p class="sunrise"></p>
+                </div>
+                <div>
+                    <p>Sunset</p>
+                    <p class="sunset"></p>
+                </div>
+                <div>
+                    <p>Chance of Rain</p>
+                    <p class="rainchance"></p>
+                </div>
+                <div>
+                    <p>Humidity</p>
+                    <p class="humidity"></p>
+                </div>
+                <div>
+                    <p>Wind</p>
+                    <p class="wind"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <p>Feels Like</p>
+                    <h5 class="feelslike"></h5>
+                </div>
+                <div>
+                    <p>Precipitation</p>
+                    <p class="precip"></p>
+                </div>
+                <div>
+                    <p>Pressure</p>
+                    <p class="pressure"></p>
+                </div>
+                <div>
+                    <p>Visibility</p>
+                    <p class="visibility"></p>
+                </div>
+                <div>
+                    <p>UV Index</p>
+                    <p class="uv-index"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+    <footer>
+        <div id="footerContent">
+            <p>2023 Alex Green</p>
+            <a href="https://github.com/Modder65?tab=repositories" target="_blank"><img src="" alt="" id="footerImg"></a>
+            </div>
+    </footer>
+</body>
+</html>
