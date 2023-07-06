@@ -50,7 +50,11 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: #F5F5F5;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+p {
+    margin: 0;
 }
 
 header {
@@ -166,7 +170,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    padding: 50px;
+    padding: 25px;
     background-color: #D3D3D3;
     border-top: 10px solid skyblue;
     border-radius: 5px;
@@ -245,6 +249,69 @@ main {
 .row div h5 {
     color: #333;
     font-size: 1.4rem;
+}
+
+#dailyDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#dailyTitles {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+}
+
+#titles-right-side {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.dayTitle {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+}
+
+#dailyTitles p {
+    color: #666;
+    margin: 0;
+}
+
+.day {
+    width: 70%;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #666;
+}
+
+.day-right-side {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dayNameContainer {
+    width: 15%;
+}
+
+.dayImgContainer {
+    width: 15%;
+}
+
+.rainContainer, .humidContainer, .avgtempContainer {
+    width: 30%;
+    display: flex;
+    justify-content: center;
 }
 
 footer {

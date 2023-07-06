@@ -26,7 +26,7 @@ let weatherData;
 let cityName;
 
 
-//animations
+// animations on load
 gsap.from(header, { duration: 1, y: "-100%", ease: "bounce" });
 gsap.from(".headerItem", { duration: 1, opacity: 0, delay: 1, stagger: .5 });
 gsap.from(footer, { duration: 1, y: "100%", ease: "bounce" });
@@ -42,10 +42,10 @@ form.addEventListener("submit", async (e) => {
         displayForecastData(weatherData);
         displayWeatherData(weatherData, cityName);
         displayExtraDetails(weatherData);
-    
+        displayDailyData(weatherData);
 });
 
-//changes temp displayed from cel to far and back
+// changes temp displayed from cel to far and back
 systemChanger.addEventListener("click", () => {
     convertTemperature();
 });
@@ -131,8 +131,9 @@ function displayExtraDetails(weatherData) {
     let pressure = document.querySelector(".pressure");
     let visibility = document.querySelector(".visibility");
     let uvIndex = document.querySelector(".uv-index");
-    sunrise.textContent = weatherData.forecast.forecastday[0].astro.sunrise;
-    sunset.textContent = weatherData.forecast.forecastday[0].astro.sunset;
+
+    sunrise.textContent = removeLeadingZero(weatherData.forecast.forecastday[0].astro.sunrise);
+    sunset.textContent = removeLeadingZero(weatherData.forecast.forecastday[0].astro.sunset);
     chanceOfRain.textContent = weatherData.forecast.forecastday[0].day.daily_chance_of_rain + "%";
     humidity.textContent =  weatherData.current.humidity + "%";
     wind.textContent = `${weatherData.current.wind_dir} ${weatherData.current.wind_mph} mph`;
@@ -150,20 +151,25 @@ function displayExtraDetails(weatherData) {
 
 function convertTemperature() {
     if (currentWeatherContainer.querySelector("h1").getAttribute("data-temp") === "fahrenheit") {
-        //convert current days temperature
+        // convert current days temperature
         document.querySelectorAll("h1").forEach(temp => {
             temp.textContent = temp.getAttribute("data-cel");
             temp.setAttribute("data-temp", "celcius");
         });
 
-        //convert current days hi and lo temperature
+        // convert current days hi and lo temperature
         document.querySelectorAll("h5").forEach(temp => {
             temp.textContent = temp.getAttribute("data-cel");
             temp.setAttribute("data-temp", "celcius");
         });
 
-        //convert hourly forecast temperature values
+        // convert hourly forecast temperature values
         document.querySelectorAll(".forecastTemp").forEach(temp => {
+            temp.textContent = temp.getAttribute("data-cel");
+        });
+
+        // convert daily avg temps values
+        document.querySelectorAll(".avgtemp").forEach(temp => {
             temp.textContent = temp.getAttribute("data-cel");
         });
     } else {
@@ -181,5 +187,109 @@ function convertTemperature() {
             temp.textContent = temp.getAttribute("data-far");
             temp.setAttribute("data-temp", "fahrenheit")
         });
+
+        document.querySelectorAll(".avgtemp").forEach(temp => {
+            temp.textContent = temp.getAttribute("data-far");
+            temp.setAttribute("data-temp", "fahrenheit")
+        });
     }
+}
+
+// removes leading zero from sunrise and sunset temperature
+function removeLeadingZero(timeString) {
+    const [hours, minutes,] = timeString.split(':');
+    const formattedHours = parseInt(hours, 10).toString();
+    const formattedTime = `${formattedHours}:${minutes}`;
+
+    return formattedTime;
+}
+
+// returns the current day name based on the provided date in the API data
+let getDayNames = (weatherData) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayNames = [];
+    
+    weatherData.forecast.forecastday.forEach(forecastDay => {
+        const forecastDate = new Date(forecastDay.date);
+
+        // returns a number associated with the day of the week
+        // i.e. if the date is on a Tuesday it would return 2 
+        // then pull the actual name of the day out of the array by
+        // passing the value from getUTCDay() as the index
+        const dayIndex = forecastDate.getUTCDay();
+        dayNames.push(daysOfWeek[dayIndex]);
+    });
+
+    return dayNames;
+}
+
+let getRainDays = (weatherData) => {
+    const rains = [weatherData.forecast.forecastday[0].day.daily_chance_of_rain + "%", weatherData.forecast.forecastday[1].day.daily_chance_of_rain + "%", weatherData.forecast.forecastday[2].day.daily_chance_of_rain + "%"];
+    return rains;
+}
+
+let getHumidDays = (weatherData) => {
+    const humidLevels = [weatherData.forecast.forecastday[0].day.avghumidity + "%", weatherData.forecast.forecastday[1].day.avghumidity + "%", weatherData.forecast.forecastday[2].day.avghumidity + "%"];
+    return humidLevels;
+}
+
+let getAvgTempDaysF = (weatherData) => {
+    const avgTempsF = [`${weatherData.forecast.forecastday[0].day.avgtemp_f}${degreeSymbol}F`, `${weatherData.forecast.forecastday[1].day.avgtemp_f}${degreeSymbol}F`, `${weatherData.forecast.forecastday[2].day.avgtemp_f}${degreeSymbol}F`];
+    return avgTempsF;
+}
+
+let getAvgTempDaysC = (weatherData) => {
+    const avgTempsC = [`${weatherData.forecast.forecastday[0].day.avgtemp_c}${degreeSymbol}C`, `${weatherData.forecast.forecastday[1].day.avgtemp_c}${degreeSymbol}C`, `${weatherData.forecast.forecastday[2].day.avgtemp_c}${degreeSymbol}C`];
+    return avgTempsC;
+}
+
+let getDayConditions = (weatherData) => {
+    const conditions = [weatherData.forecast.forecastday[0].day.condition.icon, weatherData.forecast.forecastday[1].day.condition.icon, weatherData.forecast.forecastday[2].day.condition.icon];
+    return conditions;
+}
+
+function displayDailyData(weatherData) {
+    document.querySelector("#dailyDetailsContainer").classList.remove("hidden");
+    const dayNames = getDayNames(weatherData);
+    const rainDays = getRainDays(weatherData);
+    const humidDays = getHumidDays(weatherData);
+    const tempDaysF = getAvgTempDaysF(weatherData);
+    const tempDaysC = getAvgTempDaysC(weatherData);
+    const conditionDays = getDayConditions(weatherData);
+    const dayElements = document.querySelectorAll(".dayName");
+    const rainElements = document.querySelectorAll(".rain");
+    const humidElements = document.querySelectorAll(".humid");
+    const avgTempElements = document.querySelectorAll(".avgtemp");
+    const conditionElements = document.querySelectorAll(".condition");
+
+    // sets data attributes on avgTemp elements so they can be converted to and from celcius later
+    avgTempElements.forEach((avgTempElement, index) => {
+        avgTempElement.setAttribute("data-temp", "fahrenheit");
+        avgTempElement.setAttribute("data-cel", tempDaysC[index]);
+        avgTempElement.setAttribute("data-far", tempDaysF[index]);
+    });
+
+    dayElements.forEach((dayElement, index) => {
+        dayElement.textContent = dayNames[index];
+    });
+
+    rainElements.forEach((rainElement, index) => {
+        rainElement.textContent = rainDays[index];
+    });
+
+    humidElements.forEach((humidElement, index) => {
+        humidElement.textContent = humidDays[index];
+    });
+
+    avgTempElements.forEach((avgTempElement, index) => {
+        avgTempElement.textContent = tempDaysF[index];
+    });
+
+    conditionElements.forEach((conditionElement, index) => {
+        conditionElement.setAttribute("src", conditionDays[index]);
+    });
+
+    gsap.from(document.querySelector("#dailyDetailsContainer"), { duration: 1, opacity: 0, delay: 1 });
+    gsap.from(document.querySelector("#dailyTitles"), { duration: 1, opacity: 0, delay: 1, stagger: .5 });
+    gsap.from(document.querySelectorAll(".day"), { duration: 1, opacity: 0, delay: 1, stagger: .5 });
 }
