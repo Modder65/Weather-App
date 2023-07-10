@@ -344,3 +344,83 @@ footer {
 .hidden {
     display: none!important;
 }
+
+@media screen and (max-width: 1100px) {
+    #weatherContainer {
+        flex-direction: column;
+        gap: 35px;
+        align-items: center;
+    }
+
+    #currentWeatherContainer {
+        width: 100vw;
+    }
+
+    #forecastContainer {
+        padding: 30px;
+        width: 80vw;
+    }
+    
+    #weatherDetails {
+        margin-top: 35px;
+        gap: 50px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .row div {
+        border-bottom: 1px solid #666;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .row div:nth-child(5) {
+        border: none;
+    }
+
+    #headerContent {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #headerLeft {
+        flex-direction: column;
+        gap: 0;
+        margin: 0;
+        gap: 20px;
+    }
+
+    #headerInput {
+        width: 80vw;
+    }
+
+    #systemChanger {
+        width: 80vw;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    #dailyDetailsContainer {
+        margin-top: 25px;
+        margin-bottom: 60px;
+    }
+    
+    #dailyTitles {
+        display: none;
+    }
+
+    .rainContainer, .humidContainer {
+        display: none;
+    }
+
+    .day-right-side {
+        width: 15%;
+    }
+}

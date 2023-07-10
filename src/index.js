@@ -1,7 +1,7 @@
 import "./style.css";
 import logo from "./assets/images/logo.svg";
 import githubLogo from "./assets/images/github.svg";
-import { fetchWeatherData } from "./data.js";
+import { fetchWeatherData, fetchDefaultData } from "./data.js";
 import { gsap } from "gsap";
 
 let degreeSymbol = "\u00B0"
@@ -24,7 +24,7 @@ currentWeatherContainer.querySelector("h5").setAttribute("data-temp", "fahrenhei
 
 let weatherData;
 let cityName;
-
+let defaultData;
 
 // animations on load
 gsap.from(header, { duration: 1, y: "-100%", ease: "bounce" });
@@ -32,12 +32,19 @@ gsap.from(".headerItem", { duration: 1, opacity: 0, delay: 1, stagger: .5 });
 gsap.from(footer, { duration: 1, y: "100%", ease: "bounce" });
 gsap.from("#footerContent", { duration: 1, opacity: 0, delay: 1, stagger: .5 });
 
+async function displayDefaultData() {
+    defaultData = await fetchDefaultData();
+    displayForecastData(defaultData);
+    displayWeatherData(defaultData);
+    displayExtraDetails(defaultData);
+    displayDailyData(defaultData);
+}
 
+displayDefaultData();
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     cityName = search.value.trim();
-   
         weatherData = await fetchWeatherData(cityName);
         displayForecastData(weatherData);
         displayWeatherData(weatherData, cityName);
