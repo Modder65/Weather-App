@@ -7,6 +7,7 @@ export async function fetchDefaultData() {
             console.log(data);
             return data;
     } catch(error) {
+       alert("error fetching default weather data, check your internet connection and try again.");
        console.error(`Error fetching weather data: ${error}`);
        return null;
     }
@@ -21,6 +22,7 @@ export async function fetchWeatherData(cityName) {
             console.log(data);
             return data;
     } catch(error) {
+        alert("error fetching weather data, check your internet connection and try again.");
        console.error(`Error fetching weather data: ${error}`);
        return null;
     }
